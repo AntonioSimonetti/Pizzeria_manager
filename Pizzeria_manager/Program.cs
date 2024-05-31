@@ -10,7 +10,7 @@ namespace Pizzeria_manager
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
-            Console.WriteLine("CIao");
+            Console.WriteLine("Correggiamo");
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
