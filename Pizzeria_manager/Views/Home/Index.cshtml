@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Totino, vera pizza Napoletana";
-    Layout = null;
+    Layout = "_LayoutCustom";
 
     List<Pizza> pizze = new();
     Pizza margherita = new Pizza("Margherita", "Pomodoro, Mozzarella, Basilico", "~/img/PizzaMargherita.jpg", 5.5f);
@@ -24,14 +24,6 @@
             <title>@ViewData["Title"]</title>
         </head>
         <body>
-
-        <nav class="navbar ">
-            <div class="container-fluid d-flex justify-content-center">
-                <span class="navbar-brand text-danger fw-bold">Totino, vera pizza Napoletana</span>
-                <span></span>
-            </div>
-        </nav>
-            </header>
         <div class="container mt-4 mb-4 container-custom">
             <div class="row align-items-start">
                 <table class="table table-bordered">
@@ -57,25 +49,24 @@
 
             </div>
         </div>
+ 
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         </body>
-
         </html>
-
         <style>
             body {
-        background-color: #eae2b7;
+                background-color: #eae2b7;
                 border: 2px solid black;
                 height: 100vh;
             }
 
             .navbar {
-        background-color: #fcbf49;
+                background-color: #fcbf49;
                 color: #d62828;
             }
 
             .container-custom {
-        background-color: #fcbf49;
+                background-color: #fcbf49;
                 padding: 30px; 
                 border-radius: 8px; 
             }
@@ -84,5 +75,4 @@
             .table-bordered td {
                 border: 2px solid black; 
             }
-
         </style>
