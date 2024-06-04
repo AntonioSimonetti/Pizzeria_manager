@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Totino, vera pizza Napoletana";
+    Layout = "_LayoutCustom";
+    @model List<Pizza>
+    
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="container mt-4 mb-4 container-custom">
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info fs-1" role="alert">
+                Nessuna pizza trovata!
+            </div>
+        }
+        else
+        {
+        <div class="row align-items-start">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Descrizione</th>
+                        <th scope="col">Prezzo</th>
+                        <th scope="col">Immagine</th>
+                        <th scope="col">Dettagli</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var pizza in Model)
+                    {
+                        <tr>
+                            <td>@pizza.Nome</td>
+                            <td>@pizza.Descrizione</td>
+                            <td>@pizza.Prezzo €</td>
+                            <td><img src="@Url.Content(pizza.FotoUrl)" class="img-thumbnail w-25" alt="@pizza.Nome"></td>
+                            
+                            <td>
+                                    <a href="@Url.Action("GetPizza", "Pizza", new { id = pizza.Id })">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        }
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+<style>
+    body {
+        background-color: #eae2b7;
+        border: 2px solid black;
+        height: 100%;
+        width:100%;
+    }
+
+    .navbar {
+        background-color: #fcbf49;
+        color: #d62828;
+    }
+
+    .container-custom {
+        background-color: #fcbf49;
+        padding: 30px;
+        border-radius: 8px;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 2px solid black;
+    }
+
+    .alert {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #d62828;
+        color: #fcbf49;
+        border: 2px solid #d62828;
+    }
+</style>

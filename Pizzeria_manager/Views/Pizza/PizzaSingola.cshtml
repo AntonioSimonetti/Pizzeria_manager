@@ -1,0 +1,50 @@
+﻿@model Pizza;
+@{
+   Layout = null;
+  }
+
+
+<div class="main-div">
+    <div class="first-div">
+        <h1>Nome</h1>
+        <h4>@Model.Nome</h4>
+        <h1>Descrizione</h1>
+        <h4>@Model.Descrizione</h4>
+        <h1>Costo</h1>
+        <h4>@Model.Prezzo €</h4>
+    </div>
+    <div class="second-div">
+        <img src="@Url.Content(@Model.FotoUrl)"  alt="@Model.Nome">
+    </div>
+</div>
+
+
+<style>
+
+    .main-div {
+        border: 2px solid black;
+        width: 100%;
+        height: auto;
+        display:flex;
+        justify-content:center;
+    }
+
+    .first-div {
+        width: 50%;
+        padding: 2rem;
+        height: auto;
+        display:flex;
+        justify-content: flex-start;
+        flex-direction: column;
+
+    }
+
+    .second-div {
+        width: 50%;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 2rem;
+    }
+</style>
