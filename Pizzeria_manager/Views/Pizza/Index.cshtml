@@ -45,9 +45,13 @@
                                     <a href="@Url.Action("GetPizza", "Pizza", new { id = pizza.Id })">Details</a>
                             </td>
                         </tr>
+                      
                     }
                 </tbody>
             </table>
+                <div class="d-flex justify-content-center align-item-center">
+                    <a href="@Url.Action("Create","Pizza")">Aggiungi Pizza</a>
+                </div>
 
         </div>
         }
