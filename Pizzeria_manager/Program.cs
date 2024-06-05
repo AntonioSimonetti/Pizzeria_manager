@@ -1,9 +1,13 @@
+using Pizzeria_manager.Data;
+
 namespace Pizzeria_manager
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            PizzaManager.Seed();
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.

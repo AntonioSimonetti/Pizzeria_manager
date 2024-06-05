@@ -12,6 +12,9 @@
         <h4>@Model.Descrizione</h4>
         <h1>Costo</h1>
         <h4>@Model.Prezzo €</h4>
+        <a href="@Url.Action("Index", "Pizza")">Back</a>
+
+
     </div>
     <div class="second-div">
         <img src="@Url.Content(@Model.FotoUrl)"  alt="@Model.Nome">
