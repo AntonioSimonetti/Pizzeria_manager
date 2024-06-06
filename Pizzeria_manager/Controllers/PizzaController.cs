@@ -38,6 +38,50 @@ namespace Pizzeria_manager.Controllers
             return RedirectToAction("Index");
             
         }
+
+        [HttpGet]
+
+        public IActionResult Update(int id)
+        {
+            using (PizzaContext context = new PizzaContext())
+            {
+                var pizzaToEdit = PizzaManager.GetPizza(id);
+
+                if(pizzaToEdit == null)
+                {
+                    return NotFound();
+                } else
+                {
+                    return View(pizzaToEdit);
+                }
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Update(int id, Pizza data)
+        {
+           if (!ModelState.IsValid)
+            {
+                return View("Update", data);
+            }
+
+            if (PizzaManager.UpdatePizza(id, data.Nome, data.Descrizione, data.FotoUrl, data.Prezzo))
+                return RedirectToAction("Index");
+            else
+                return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            if (PizzaManager.DeletePizza(id))
+                return RedirectToAction("Index");
+            else
+                return NotFound();
+        }
     }
  }
 

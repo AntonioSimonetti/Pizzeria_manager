@@ -29,6 +29,41 @@ namespace Pizzeria_manager.Data
             db.SaveChanges();
         }
 
+        public static bool UpdatePizza(int id, string nome, string descrizione, string fotoUrl, float prezzo)
+        {
+            using PizzaContext context = new PizzaContext();
+            var pizza = context.Pizze.FirstOrDefault(p => p.Id == id);
+
+                if(pizza == null)
+                    return false;
+                
+
+                pizza.Nome = nome;
+                pizza.Descrizione = descrizione;
+                pizza.FotoUrl = fotoUrl;
+                pizza.Prezzo = prezzo;
+
+                context.SaveChanges();
+
+                return true;
+            
+        }
+
+        public static bool DeletePizza(int id)
+        {
+            using PizzaContext context = new PizzaContext();
+            var pizza = context.Pizze.FirstOrDefault(p => p.Id == id);
+
+            if (pizza == null)
+                return false;
+
+
+            context.Pizze.Remove(pizza);
+            context.SaveChanges();
+
+            return true;
+        }
+
         public static void Seed()
         {
             if (PizzaManager.CountAllPizzas() == 0)

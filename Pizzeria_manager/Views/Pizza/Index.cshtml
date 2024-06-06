@@ -42,7 +42,18 @@
                             <td><img src="@Url.Content(pizza.FotoUrl)" class="img-thumbnail w-25" alt="@pizza.Nome"></td>
                             
                             <td>
-                                    <a href="@Url.Action("GetPizza", "Pizza", new { id = pizza.Id })">Details</a>
+                                    <a href="@Url.Action("GetPizza", "Pizza", new { id = pizza.Id })">Dettagli</a>
+                            </td>
+                            <td>
+                                    <a href="@Url.Action("Update", "Pizza", new { id = pizza.Id })">Modifica</a>
+                            </td>
+                            <td>
+                                <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Cancella
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                       

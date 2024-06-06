@@ -15,10 +15,12 @@ namespace Pizzeria_manager.Models
         {
             string fieldValue = (string)value;
 
-            if(fieldValue == null || fieldValue.Length < MinLength)
+            var quanteParole = fieldValue?.Split(' ');
+
+            if (quanteParole?.Where(x => x.Length > 0).Count() < MinLength) 
             {
 
-                return new ValidationResult($"il campo deve contenere almeno {MinLength} lettere");
+                return new ValidationResult($"il campo deve contenere almeno {MinLength} parole");
             }
 
             return ValidationResult.Success;
