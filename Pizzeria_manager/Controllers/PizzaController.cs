@@ -21,19 +21,22 @@ namespace Pizzeria_manager.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            PizzaFormModel model = new PizzaFormModel();
+            model.Pizza = new Pizza();
+            model.Categories = PizzaManager.GetAllCategories();
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza data)
+        public IActionResult Create(PizzaFormModel data)
         {
             if (!ModelState.IsValid)
             {
                 return View("Create", data);
             }
 
-            PizzaManager.InsertPizza(data);
+            PizzaManager.InsertPizza(data.Pizza);
 
             return RedirectToAction("Index");
             
@@ -43,31 +46,38 @@ namespace Pizzeria_manager.Controllers
 
         public IActionResult Update(int id)
         {
-            using (PizzaContext context = new PizzaContext())
-            {
-                var pizzaToEdit = PizzaManager.GetPizza(id);
 
-                if(pizzaToEdit == null)
-                {
-                    return NotFound();
-                } else
-                {
-                    return View(pizzaToEdit);
-                }
-            }
+            var pizzaToEdit = PizzaManager.GetPizza(id,true);
+
+            if (pizzaToEdit == null)
+            {
+                return NotFound();
+            } 
+            else
+            {
+                PizzaFormModel model = new PizzaFormModel();
+                model.Pizza = pizzaToEdit;
+                model.Categories = PizzaManager.GetAllCategories();
+                return View(model);
+
+            }      
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult Update(int id, Pizza data)
+        public IActionResult Update(int id, PizzaFormModel data)
         {
            if (!ModelState.IsValid)
             {
+                //return View("Update", data);
+
+                data.Pizza.Id = id;
+                data.Categories = PizzaManager.GetAllCategories(); // Populate Categories when the model is not valid
                 return View("Update", data);
             }
 
-            if (PizzaManager.UpdatePizza(id, data.Nome, data.Descrizione, data.FotoUrl, data.Prezzo))
+            if (PizzaManager.UpdatePizza(id, data.Pizza.Nome, data.Pizza.Descrizione, data.Pizza.FotoUrl, data.Pizza.Prezzo, data.Pizza.CategoryId))
                 return RedirectToAction("Index");
             else
                 return NotFound();

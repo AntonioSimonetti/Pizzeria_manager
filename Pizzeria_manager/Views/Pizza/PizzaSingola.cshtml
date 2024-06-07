@@ -12,6 +12,8 @@
         <h4>@Model.Descrizione</h4>
         <h1>Costo</h1>
         <h4>@Model.Prezzo €</h4>
+        <h1>Categoria:</h1>
+        <h4>@($"{Model.GetDisplayedCategory()}")</h4>
         <a href="@Url.Action("Index", "Pizza")">Back</a>
 
 

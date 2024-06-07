@@ -30,6 +30,8 @@ namespace Pizzeria_manager.Models
         [Required(ErrorMessage = "Il campo è obbligatorio")]
         [Range(0.01, 1000, ErrorMessage = "Il prezzo deve essere maggiore di zero.")]
         public float Prezzo { get; set; }
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
 
         public Pizza() { }
 
@@ -39,6 +41,13 @@ namespace Pizzeria_manager.Models
             Descrizione = descrizione;
             FotoUrl = fotoUrl;
             Prezzo = prezzo;
+        }
+
+        public string GetDisplayedCategory()
+        {
+            if (Category == null)
+                return "Nessuna categoria";
+            return Category.Title;
         }
     }
 }

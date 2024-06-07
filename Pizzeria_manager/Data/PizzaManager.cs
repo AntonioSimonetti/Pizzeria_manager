@@ -1,4 +1,5 @@
-﻿using Pizzeria_manager.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Pizzeria_manager.Models;
 
 namespace Pizzeria_manager.Data
 {
@@ -16,9 +17,11 @@ namespace Pizzeria_manager.Data
             return db.Pizze.ToList();
         }
 
-        public static Pizza GetPizza(int id)
+        public static Pizza GetPizza(int id, bool includeReferences = true)
         {
             using PizzaContext db = new PizzaContext();
+            if(includeReferences)
+                 return db.Pizze.Where(p => p.Id == id).Include(p => p.Category).FirstOrDefault();
             return db.Pizze.FirstOrDefault(p => p.Id == id);
         }
 
@@ -29,7 +32,7 @@ namespace Pizzeria_manager.Data
             db.SaveChanges();
         }
 
-        public static bool UpdatePizza(int id, string nome, string descrizione, string fotoUrl, float prezzo)
+        public static bool UpdatePizza(int id, string nome, string descrizione, string fotoUrl, float prezzo, int? categoryId)
         {
             using PizzaContext context = new PizzaContext();
             var pizza = context.Pizze.FirstOrDefault(p => p.Id == id);
@@ -42,6 +45,7 @@ namespace Pizzeria_manager.Data
                 pizza.Descrizione = descrizione;
                 pizza.FotoUrl = fotoUrl;
                 pizza.Prezzo = prezzo;
+                pizza.CategoryId = categoryId;
 
                 context.SaveChanges();
 
@@ -62,6 +66,12 @@ namespace Pizzeria_manager.Data
             context.SaveChanges();
 
             return true;
+        }
+
+        public static List<Category> GetAllCategories()
+        {
+            using PizzaContext db = new PizzaContext();
+            return db.Categories.ToList();
         }
 
         public static void Seed()

@@ -11,6 +11,7 @@ namespace Pizzeria_manager.Data
     internal class PizzaContext : DbContext
     {
         public DbSet<Pizza> Pizze { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
