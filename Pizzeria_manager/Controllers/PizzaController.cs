@@ -62,9 +62,10 @@ namespace Pizzeria_manager.Controllers
             } 
             else
             {
-                PizzaFormModel model = new PizzaFormModel();
+                PizzaFormModel model = new PizzaFormModel(pizzaToEdit);
                 model.Pizza = pizzaToEdit;
                 model.Categories = PizzaManager.GetAllCategories();
+                model.CreateIngredienti();
                 return View(model);
 
             }      
@@ -77,19 +78,18 @@ namespace Pizzeria_manager.Controllers
         {
            if (!ModelState.IsValid)
             {
-                //return View("Update", data);
 
                 data.Pizza.Id = id;
                 data.Categories = PizzaManager.GetAllCategories(); // Populate Categories when the model is not valid
                 return View("Update", data);
             }
 
-            if (PizzaManager.UpdatePizza(id, data.Pizza.Nome, data.Pizza.Descrizione, data.Pizza.FotoUrl, data.Pizza.Prezzo, data.Pizza.CategoryId))
+            if (PizzaManager.UpdatePizza(id, data.Pizza.Nome, data.Pizza.Descrizione, data.Pizza.FotoUrl, data.Pizza.Prezzo, data.Pizza.CategoryId, data.SelectedIngredienti))
                 return RedirectToAction("Index");
             else
                 return NotFound();
         }
-
+         
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

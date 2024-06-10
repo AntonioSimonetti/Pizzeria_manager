@@ -14,6 +14,9 @@
         <h4>@Model.Prezzo €</h4>
         <h1>Categoria:</h1>
         <h4>@($"{Model.GetDisplayedCategory()}")</h4>
+       
+        @if (Model.Ingredienti?.Count > 0)
+        {
         <h1>Ingredienti:</h1>
         <div style="display: flex; flex-wrap: wrap; gap: 5px;">
             @foreach (var ingredienti in Model.Ingredienti)
@@ -23,7 +26,11 @@
                 </div>
 
             }
-        </div>
+            </div>
+           } else
+           {
+            <h1>Nessun ingrediente</h1>
+        }
         <a href="@Url.Action("Index", "Pizza")">Back</a>
 
      

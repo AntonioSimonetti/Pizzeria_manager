@@ -26,30 +26,38 @@ namespace Pizzeria_manager.Data
         }
 
   
-        public static void InsertPizza(Pizza pizza, List<string> SelectedIngredienti = null)
+        public static void InsertPizza(Pizza pizza, List<string> SelectedIngredienti) 
         {
             using PizzaContext db = new PizzaContext();
-            if(SelectedIngredienti != null)
+            pizza.Ingredienti = new List<Ingredienti>();
+            if (SelectedIngredienti != null)
             {
-                pizza.Ingredienti = new List<Ingredienti>();
-
+           
                 foreach(var ingredientId in SelectedIngredienti)
                 {
                     int id = int.Parse(ingredientId);
                     var ingrediente = db.Ingredienti.FirstOrDefault(t => t.Id == id);
-                    pizza.Ingredienti.Add(ingrediente);
+                    if (ingrediente != null)
+                    {
+                        pizza.Ingredienti.Add(ingrediente);
+                    }
                 }
             }
             db.Pizze.Add(pizza);
             db.SaveChanges();
         }
 
-        public static bool UpdatePizza(int id, string nome, string descrizione, string fotoUrl, float prezzo, int? categoryId)
+        public static bool UpdatePizza(int id, string nome, string descrizione, string fotoUrl, float prezzo, int? categoryId, List<string> selectedIngredienti)
         {
             using PizzaContext context = new PizzaContext();
-            var pizza = context.Pizze.FirstOrDefault(p => p.Id == id);
+            //var pizza = context.Pizze.FirstOrDefault(p => p.Id == id);
 
-                if(pizza == null)
+            Pizza pizza = context.Pizze
+            .Where(p => p.Id == id)
+            .Include(p => p.Ingredienti)
+            .FirstOrDefault();
+
+            if (pizza == null)
                     return false;
                 
 
@@ -59,12 +67,23 @@ namespace Pizzeria_manager.Data
                 pizza.Prezzo = prezzo;
                 pizza.CategoryId = categoryId;
 
-                context.SaveChanges();
+                pizza.Ingredienti.Clear();
+                if(selectedIngredienti != null)
+                {
+                    foreach(var ingrediente in selectedIngredienti)
+                    {
+                        int ingredienteId = int.Parse(ingrediente);
+                        var ingredienteFromDB = context.Ingredienti.FirstOrDefault(x => x.Id == ingredienteId);
+                        if (ingredienteFromDB != null)
+                            pizza.Ingredienti.Add(ingredienteFromDB);
+                    }
+                }
 
-                return true;
-            
+                context.SaveChanges();
+                return true;   
         }
 
+      
         public static bool DeletePizza(int id)
         {
             using PizzaContext context = new PizzaContext();
@@ -103,11 +122,11 @@ namespace Pizzeria_manager.Data
                 Pizza salsiccia = new Pizza("Salsiccia e Patatine", "Salsiccia, patatine fritte, mozzarella", "~/img/PizzaSalsiccia.jpg", 8.5f);
                 Pizza friarelli = new Pizza("Salsiccia e friarielli", "Salsiccia, friarielli, mozzarella", "~/img/PizzaFriarielli.jpg", 7f);
 
-                PizzaManager.InsertPizza(margherita);
-                PizzaManager.InsertPizza(italiana);
-                PizzaManager.InsertPizza(croccopizza);
-                PizzaManager.InsertPizza(salsiccia);
-                PizzaManager.InsertPizza(friarelli);
+                PizzaManager.InsertPizza(margherita, new());
+                PizzaManager.InsertPizza(italiana, new());
+                PizzaManager.InsertPizza(croccopizza, new());
+                PizzaManager.InsertPizza(salsiccia, new());
+                PizzaManager.InsertPizza(friarelli, new());
 
             }
         }
