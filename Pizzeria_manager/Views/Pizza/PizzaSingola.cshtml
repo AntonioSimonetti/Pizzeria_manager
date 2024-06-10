@@ -14,7 +14,19 @@
         <h4>@Model.Prezzo €</h4>
         <h1>Categoria:</h1>
         <h4>@($"{Model.GetDisplayedCategory()}")</h4>
+        <h1>Ingredienti:</h1>
+        <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+            @foreach (var ingredienti in Model.Ingredienti)
+            {
+                <div style="background-color:azure; display:flex; justify-content: center; align-items: center; border-radius:3px; border-style: solid; border-color:black; padding:2px;">
+                    @ingredienti.Name
+                </div>
+
+            }
+        </div>
         <a href="@Url.Action("Index", "Pizza")">Back</a>
+
+     
 
 
     </div>

@@ -21,13 +21,25 @@ namespace Pizzeria_manager.Data
         {
             using PizzaContext db = new PizzaContext();
             if(includeReferences)
-                 return db.Pizze.Where(p => p.Id == id).Include(p => p.Category).FirstOrDefault();
+                 return db.Pizze.Where(p => p.Id == id).Include(p => p.Category).Include(p => p.Ingredienti).FirstOrDefault();
             return db.Pizze.FirstOrDefault(p => p.Id == id);
         }
 
-        public static void InsertPizza(Pizza pizza)
+  
+        public static void InsertPizza(Pizza pizza, List<string> SelectedIngredienti = null)
         {
             using PizzaContext db = new PizzaContext();
+            if(SelectedIngredienti != null)
+            {
+                pizza.Ingredienti = new List<Ingredienti>();
+
+                foreach(var ingredientId in SelectedIngredienti)
+                {
+                    int id = int.Parse(ingredientId);
+                    var ingrediente = db.Ingredienti.FirstOrDefault(t => t.Id == id);
+                    pizza.Ingredienti.Add(ingrediente);
+                }
+            }
             db.Pizze.Add(pizza);
             db.SaveChanges();
         }
@@ -72,6 +84,12 @@ namespace Pizzeria_manager.Data
         {
             using PizzaContext db = new PizzaContext();
             return db.Categories.ToList();
+        }
+
+        public static List<Ingredienti> GetAllIngredienti()
+        {
+            using PizzaContext db = new PizzaContext();
+            return db.Ingredienti.ToList();
         }
 
         public static void Seed()

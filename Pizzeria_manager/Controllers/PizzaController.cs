@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Pizzeria_manager.Data;
 using Pizzeria_manager.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 
 namespace Pizzeria_manager.Controllers
@@ -24,6 +26,7 @@ namespace Pizzeria_manager.Controllers
             PizzaFormModel model = new PizzaFormModel();
             model.Pizza = new Pizza();
             model.Categories = PizzaManager.GetAllCategories();
+            model.CreateIngredienti();
             return View(model);
         }
 
@@ -33,10 +36,14 @@ namespace Pizzeria_manager.Controllers
         {
             if (!ModelState.IsValid)
             {
+                data.Categories = PizzaManager.GetAllCategories();
+                data.CreateIngredienti();
                 return View("Create", data);
             }
 
-            PizzaManager.InsertPizza(data.Pizza);
+          
+
+            PizzaManager.InsertPizza(data.Pizza, data.SelectedIngredienti);
 
             return RedirectToAction("Index");
             

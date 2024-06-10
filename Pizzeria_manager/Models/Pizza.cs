@@ -33,6 +33,8 @@ namespace Pizzeria_manager.Models
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
 
+        public List<Ingredienti>? Ingredienti { get; set; }
+
         public Pizza() { }
 
         public Pizza(string nome, string descrizione, string fotoUrl, float prezzo)

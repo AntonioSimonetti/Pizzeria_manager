@@ -13,6 +13,8 @@ namespace Pizzeria_manager.Data
         public DbSet<Pizza> Pizze { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Ingredienti> Ingredienti { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=pizzaDB;Integrated Security=True;Trust Server Certificate=True");
