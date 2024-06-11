@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Pizzeria_manager.Data;
 using Pizzeria_manager.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 
 
@@ -15,12 +17,14 @@ namespace Pizzeria_manager.Controllers
             return View(PizzaManager.GetAllPizzas());
         }
 
+        [Authorize(Roles = "ADMIN, USER")]
         public IActionResult GetPizza(int id)
         {
             return View("PizzaSingola", PizzaManager.GetPizza(id));
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Create()
         {
             PizzaFormModel model = new PizzaFormModel();
@@ -32,6 +36,8 @@ namespace Pizzeria_manager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
+
         public IActionResult Create(PizzaFormModel data)
         {
             if (!ModelState.IsValid)
@@ -50,6 +56,7 @@ namespace Pizzeria_manager.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN")]
 
         public IActionResult Update(int id)
         {
@@ -73,6 +80,7 @@ namespace Pizzeria_manager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
 
         public IActionResult Update(int id, PizzaFormModel data)
         {
@@ -92,6 +100,8 @@ namespace Pizzeria_manager.Controllers
          
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
+
         public IActionResult Delete(int id)
         {
             if (PizzaManager.DeletePizza(id))

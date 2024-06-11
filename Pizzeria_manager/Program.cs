@@ -1,4 +1,6 @@
 using Pizzeria_manager.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Pizzeria_manager
 {
@@ -9,6 +11,12 @@ namespace Pizzeria_manager
             PizzaManager.Seed();
 
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<PizzaContext>();
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<PizzaContext>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -27,12 +35,13 @@ namespace Pizzeria_manager
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Pizza}/{action=Index}/{id?}");
+            app.MapRazorPages();
 
             app.Run();
         }
