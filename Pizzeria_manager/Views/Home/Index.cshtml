@@ -2,3 +2,34 @@
   
 }
    
+<h1>HOMEPAGE</h1>
+<div class="container-fluid">
+    <p>Effettua il login/registrati per vedere tutte le pizze</p>
+    <a class="nav-link text-dark button-link" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    <a class="nav-link text-dark button-link" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+</div>
+
+<style>
+    .button-link {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+        .button-link:hover {
+            background-color: #0056b3;
+        }
+
+        .button-link:active {
+            background-color: #003f7f;
+        }
+
+</style>

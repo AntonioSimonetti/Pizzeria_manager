@@ -44,6 +44,8 @@
                             <td>
                                     <a href="@Url.Action("GetPizza", "Pizza", new { id = pizza.Id })">Dettagli</a>
                             </td>
+                             @if (User.IsInRole("ADMIN"))
+                             {
                             <td>
                                     <a href="@Url.Action("Update", "Pizza", new { id = pizza.Id })">Modifica</a>
                             </td>
@@ -55,15 +57,18 @@
                                     </button>
                                 </form>
                             </td>
+                             }
                         </tr>
                       
                     }
                 </tbody>
             </table>
-                <div class="d-flex justify-content-center align-item-center">
-                    <a href="@Url.Action("Create","Pizza")">Aggiungi Pizza</a>
+                @if (User.IsInRole("ADMIN"))
+                {
+                    <div class="d-flex justify-content-center align-item-center">
+                        <a href="@Url.Action("Create","Pizza")">Aggiungi Pizza</a>
                 </div>
-
+                }
         </div>
         }
     </div>

@@ -10,6 +10,7 @@ using System.Security.Claims;
 
 namespace Pizzeria_manager.Controllers
 {
+    [Authorize]
     public class PizzaController : Controller
     {
         public IActionResult Index()
