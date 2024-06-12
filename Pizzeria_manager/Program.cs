@@ -1,6 +1,7 @@
 using Pizzeria_manager.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace Pizzeria_manager
 {
@@ -20,7 +21,7 @@ namespace Pizzeria_manager
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); //JSON bug fix, cycles
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

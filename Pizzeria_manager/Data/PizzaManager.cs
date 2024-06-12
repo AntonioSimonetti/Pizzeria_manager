@@ -25,6 +25,12 @@ namespace Pizzeria_manager.Data
             return db.Pizze.FirstOrDefault(p => p.Id == id);
         }
 
+        public static Pizza GetPizzaByName(string nome)
+        {
+            using PizzaContext db = new PizzaContext();
+            return db.Pizze.FirstOrDefault(p => p.Nome == nome);
+        }
+
   
         public static void InsertPizza(Pizza pizza, List<string> SelectedIngredienti) 
         {

@@ -115,9 +115,7 @@ namespace Pizzeria_manager.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    // HO MODIFICATO QUI: Reindirizza a un controller specifico dopo il login
                     return LocalRedirect(Url.Action("Index", "Pizza"));
-                    // return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
