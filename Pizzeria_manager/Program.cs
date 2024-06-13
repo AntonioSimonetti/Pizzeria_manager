@@ -9,7 +9,7 @@ namespace Pizzeria_manager
     {
         public static void Main(string[] args)
         {
-            PizzaManager.Seed();
+            //PizzaManager.Seed();
 
             var builder = WebApplication.CreateBuilder(args);
 

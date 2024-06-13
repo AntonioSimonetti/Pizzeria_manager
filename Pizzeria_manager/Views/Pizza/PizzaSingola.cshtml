@@ -38,7 +38,12 @@
 
     </div>
     <div class="second-div">
-        <img src="@Url.Content(@Model.FotoUrl)"  alt="@Model.Nome">
+        @{
+            //aggiunto per gestire le vecchie entity prima che ci fosse imgSrc disponibile
+            string imageUrl = !string.IsNullOrEmpty(Model.ImgSrc) ? Model.ImgSrc : Model.FotoUrl;
+            <img src="@Url.Content(imageUrl)" class="img-thumbnail w-25" alt="@Model.Nome">
+
+        }
     </div>
 </div>
 

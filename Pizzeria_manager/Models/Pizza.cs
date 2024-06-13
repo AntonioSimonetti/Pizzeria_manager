@@ -23,8 +23,8 @@ namespace Pizzeria_manager.Models
         public string Descrizione { get; set; }
 
         [Column("FotoUrl")]
-        [Required(ErrorMessage = "Il campo è obbligatorio")]
-        public string FotoUrl { get; set; }
+        //[Required(ErrorMessage = "Il campo è obbligatorio")]
+        public string? FotoUrl { get; set; }
 
         [Column("Prezzo")]
         [Required(ErrorMessage = "Il campo è obbligatorio")]
@@ -35,9 +35,14 @@ namespace Pizzeria_manager.Models
 
         public List<Ingredienti>? Ingredienti { get; set; }
 
+        public byte[]? ImageFile { get; set; }
+
+        public string ImgSrc => ImageFile != null ? $"data:image/png;base64,{Convert.ToBase64String(ImageFile)}" : "";
+
         public Pizza() { }
 
         public Pizza(string nome, string descrizione, string fotoUrl, float prezzo)
+
         {
             Nome = nome;
             Descrizione = descrizione;

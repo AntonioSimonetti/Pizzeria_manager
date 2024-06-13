@@ -53,7 +53,7 @@ namespace Pizzeria_manager.Data
             db.SaveChanges();
         }
 
-        public static bool UpdatePizza(int id, string nome, string descrizione, string fotoUrl, float prezzo, int? categoryId, List<string> selectedIngredienti)
+        public static bool UpdatePizza(int id, string nome, string descrizione, string fotoUrl, byte[] imageFile, float prezzo, int? categoryId, List<string> selectedIngredienti)
         {
             using PizzaContext context = new PizzaContext();
 
@@ -69,6 +69,7 @@ namespace Pizzeria_manager.Data
                 pizza.Nome = nome;
                 pizza.Descrizione = descrizione;
                 pizza.FotoUrl = fotoUrl;
+                pizza.ImageFile = imageFile;
                 pizza.Prezzo = prezzo;
                 pizza.CategoryId = categoryId;
 
@@ -116,7 +117,7 @@ namespace Pizzeria_manager.Data
             return db.Ingredienti.ToList();
         }
 
-        public static void Seed()
+       /* public static void Seed()
         {
             if (PizzaManager.CountAllPizzas() == 0)
             {
@@ -134,6 +135,6 @@ namespace Pizzeria_manager.Data
                 PizzaManager.InsertPizza(friarelli, new());
 
             }
-        }
+        }*/
     }
 }

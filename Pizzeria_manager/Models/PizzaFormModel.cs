@@ -13,6 +13,8 @@ namespace Pizzeria_manager.Models
 
         public List<string>? SelectedIngredienti { get; set; }
 
+        public IFormFile? ImageFormFile { get; set; }
+
         public PizzaFormModel() { }
 
         public PizzaFormModel(Pizza pizza)
@@ -38,6 +40,18 @@ namespace Pizzeria_manager.Models
                 });
         
             }
+        }
+
+        public byte[] SetImageFileFromFormFile()
+        {
+            if (ImageFormFile == null)
+                return null;
+
+            using var stream = new MemoryStream();
+            this.ImageFormFile?.CopyTo(stream);
+            Pizza.ImageFile = stream.ToArray();
+
+            return Pizza.ImageFile;
         }
     }
 }

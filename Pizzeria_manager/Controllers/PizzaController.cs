@@ -41,15 +41,26 @@ namespace Pizzeria_manager.Controllers
 
         public IActionResult Create(PizzaFormModel data)
         {
+            
             if (!ModelState.IsValid)
             {
+
+                // Log the validation errors
+                foreach (var key in ModelState.Keys)
+                {
+                    var state = ModelState[key];
+                    foreach (var error in state.Errors)
+                    {
+                        Console.WriteLine($"Key: {key}, Error: {error.ErrorMessage}");
+                    }
+                }
+
                 data.Categories = PizzaManager.GetAllCategories();
                 data.CreateIngredienti();
                 return View("Create", data);
-            }
+            } 
 
-          
-
+            data.SetImageFileFromFormFile();
             PizzaManager.InsertPizza(data.Pizza, data.SelectedIngredienti);
 
             return RedirectToAction("Index");
@@ -85,7 +96,9 @@ namespace Pizzeria_manager.Controllers
 
         public IActionResult Update(int id, PizzaFormModel data)
         {
-           if (!ModelState.IsValid)
+            data.SetImageFileFromFormFile();
+
+            if (!ModelState.IsValid)
             {
 
                 data.Pizza.Id = id;
@@ -93,7 +106,7 @@ namespace Pizzeria_manager.Controllers
                 return View("Update", data);
             }
 
-            if (PizzaManager.UpdatePizza(id, data.Pizza.Nome, data.Pizza.Descrizione, data.Pizza.FotoUrl, data.Pizza.Prezzo, data.Pizza.CategoryId, data.SelectedIngredienti))
+            if (PizzaManager.UpdatePizza(id, data.Pizza.Nome, data.Pizza.Descrizione, data.Pizza.FotoUrl, data.Pizza.ImageFile, data.Pizza.Prezzo, data.Pizza.CategoryId, data.SelectedIngredienti))
                 return RedirectToAction("Index");
             else
                 return NotFound();

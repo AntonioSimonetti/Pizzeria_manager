@@ -17,7 +17,6 @@ namespace Pizzeria_manager.Controllers
         }
 
         [HttpGet("{nome}")]
-        
         public IActionResult GetPizzaByName(string nome)
         {
             var pizza = PizzaManager.GetPizzaByName(nome);
@@ -43,19 +42,19 @@ namespace Pizzeria_manager.Controllers
         }
 
         [HttpPut("{id}")]
-
         public IActionResult UpdatePizza(int id, [FromBody] Pizza pizza)
         {
             var oldPizza = PizzaManager.GetPizza(id);
             if (oldPizza == null)
                 return NotFound();
-            pizza.Id= id;
-            PizzaManager.UpdatePizza(pizza.Id, pizza.Nome, pizza.Descrizione, pizza.FotoUrl, pizza.Prezzo, pizza.CategoryId, null);
+            pizza.Id = id;
+            //PizzaManager.UpdatePizza(pizza.Id, pizza.Nome, pizza.Descrizione, pizza.FotoUrl, pizza.Prezzo, pizza.CategoryId, null);
+
+            PizzaManager.UpdatePizza(pizza.Id, pizza.Nome, pizza.Descrizione, pizza.FotoUrl, pizza.ImageFile, pizza.Prezzo, pizza.CategoryId, null);
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        
         public IActionResult DeletePizza(int id)
         {
             bool found = PizzaManager.DeletePizza(id);
@@ -63,6 +62,5 @@ namespace Pizzeria_manager.Controllers
                 return Ok();
             return NotFound();
         }
-
     }
 }

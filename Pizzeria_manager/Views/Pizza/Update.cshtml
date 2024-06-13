@@ -3,7 +3,7 @@
    Layout = "_LayoutCustom";
   }
 
-<form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Pizza.Id" method="post">
+<form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Pizza.Id" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <div class="mb-3">
         <strong>Nome:</strong>
@@ -25,13 +25,14 @@
         <span asp-validation-for="Pizza.Prezzo" class="text-danger"></span>
 
     </div>
-
+     @*
     <div class="mb-3">
         <strong>Foto:</strong>
         <input asp-for="Pizza.FotoUrl" class="d-block w-100" />
         <span asp-validation-for="Pizza.FotoUrl" class="text-danger"></span>
 
     </div>
+    *@
 
     <div class="mb-3">
         <strong>Categoria:</strong>
@@ -49,6 +50,12 @@
                 }
             }
         </select>
+    </div>
+
+    <div class="form-field">
+        <img src="@Model.Pizza.ImgSrc" />
+        <label asp-for?="ImageFromFile">Image file</label>
+        <input type="file" asp-for="ImageFormFile" />
     </div>
 
     <div class="mb-3">

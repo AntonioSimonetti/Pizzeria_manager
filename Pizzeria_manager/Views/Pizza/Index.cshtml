@@ -39,8 +39,15 @@
                             <td>@pizza.Nome</td>
                             <td>@pizza.Descrizione</td>
                             <td>@pizza.Prezzo €</td>
-                            <td><img src="@Url.Content(pizza.FotoUrl)" class="img-thumbnail w-25" alt="@pizza.Nome"></td>
-                            
+                            <td>
+                                    @{
+                                        //aggiunto per gestire le vecchie entity prima che ci fosse imgSrc disponibile
+                                        string imageUrl = !string.IsNullOrEmpty(pizza.ImgSrc) ? pizza.ImgSrc : pizza.FotoUrl;
+                                        <img src="@Url.Content(imageUrl)" class="img-thumbnail w-25" alt="@pizza.Nome">
+
+                                    }
+                                </td>
+
                             <td>
                                     <a href="@Url.Action("GetPizza", "Pizza", new { id = pizza.Id })">Dettagli</a>
                             </td>
