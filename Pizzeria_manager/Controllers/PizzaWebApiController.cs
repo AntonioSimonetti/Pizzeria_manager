@@ -9,11 +9,13 @@ namespace Pizzeria_manager.Controllers
     [ApiController]
     public class PizzaWebApiController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult GetAllPizzas()
+        [HttpGet("{name?}")]
+        public IActionResult GetAllPizzas(string? name = "")
         {
-            var pizzas = PizzaManager.GetAllPizzas();
-            return Ok(pizzas);
+            if(string.IsNullOrWhiteSpace(name))
+                return Ok(PizzaManager.GetAllPizzas());
+           
+            return Ok(PizzaManager.GetPizzasByName(name));
         }
 
         [HttpGet("{nome}")]
@@ -24,6 +26,7 @@ namespace Pizzeria_manager.Controllers
                 return NotFound();
             return Ok(pizza);
         }
+
 
         [HttpGet]
         public IActionResult GetPizzaById(int id) 

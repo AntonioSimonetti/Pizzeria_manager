@@ -31,6 +31,12 @@ namespace Pizzeria_manager.Data
             return db.Pizze.FirstOrDefault(p => p.Nome == nome);
         }
 
+        public static List<Pizza> GetPizzasByName(string name)
+        {
+            using PizzaContext db = new PizzaContext();
+            return db.Pizze.Where(p => p.Nome == name).ToList();
+        }
+
   
         public static void InsertPizza(Pizza pizza, List<string> SelectedIngredienti) 
         {
