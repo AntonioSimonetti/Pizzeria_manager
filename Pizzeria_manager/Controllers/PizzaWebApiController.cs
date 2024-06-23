@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria_manager.Data;
 using Pizzeria_manager.Models;
@@ -10,6 +11,7 @@ namespace Pizzeria_manager.Controllers
     public class PizzaWebApiController : ControllerBase
     {
         [HttpGet("{name?}")]
+        [Authorize(Roles = "ADMIN,USER")]
         public IActionResult GetAllPizzas(string? name = "")
         {
             if(string.IsNullOrWhiteSpace(name))

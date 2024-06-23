@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Pizzeria_manager.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Pizzeria_manager.Data
 {
@@ -19,9 +22,12 @@ namespace Pizzeria_manager.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=pizzaDB;Integrated Security=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-3J0361P;Database=pizzaDB;Integrated Security=True;Trust Server Certificate=True");
+
         }
 
 
     }
 }
+
+
