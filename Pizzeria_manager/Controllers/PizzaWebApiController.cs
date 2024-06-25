@@ -14,9 +14,9 @@ namespace Pizzeria_manager.Controllers
         [Authorize(Roles = "ADMIN,USER")]
         public IActionResult GetAllPizzas(string? name = "")
         {
-            if(string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
                 return Ok(PizzaManager.GetAllPizzas());
-           
+
             return Ok(PizzaManager.GetPizzasByName(name));
         }
 
@@ -31,17 +31,18 @@ namespace Pizzeria_manager.Controllers
 
 
         [HttpGet]
-        public IActionResult GetPizzaById(int id) 
+        public IActionResult GetPizzaById(int id)
         {
             var pizza = PizzaManager.GetPizza(id, true);
             if (pizza == null)
                 return NotFound();
-            return Ok(pizza);   
+            return Ok(pizza);
         }
 
         [HttpPost]
         public IActionResult InsertPizza([FromBody] Pizza pizza)
         {
+            Console.WriteLine("ciao");
             PizzaManager.InsertPizza(pizza, null);
             return Ok();
         }
@@ -67,5 +68,20 @@ namespace Pizzeria_manager.Controllers
                 return Ok();
             return NotFound();
         }
+
+        [HttpGet]
+        [Authorize(Roles = "ADMIN,USER")]
+        public IActionResult GetAllCategories()
+        {
+            return Ok(PizzaManager.GetAllCategories());
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "ADMIN,USER")]
+        public IActionResult GetAllIngredienti()
+        {
+            return Ok(PizzaManager.GetAllIngredienti());
+        }
+
     }
 }
