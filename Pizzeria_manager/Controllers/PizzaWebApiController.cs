@@ -29,6 +29,15 @@ namespace Pizzeria_manager.Controllers
             return Ok(pizza);
         }
 
+        [HttpGet("{nome}")]
+        public IActionResult GetPizzaByNamePartial(string nome)
+        {
+            var pizzas = PizzaManager.GetPizzasByNamePartial(nome);
+            if (!pizzas.Any())
+                return NotFound();
+            return Ok(pizzas);
+        }
+
 
         [HttpGet]
         public IActionResult GetPizzaById(int id)

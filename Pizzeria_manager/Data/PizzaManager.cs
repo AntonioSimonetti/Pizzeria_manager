@@ -123,24 +123,34 @@ namespace Pizzeria_manager.Data
             return db.Ingredienti.ToList();
         }
 
-       /* public static void Seed()
+        public static List<Pizza> GetPizzasByNamePartial(string name)
         {
-            if (PizzaManager.CountAllPizzas() == 0)
+            using (PizzaContext db = new PizzaContext())
             {
-
-                Pizza margherita = new Pizza("Margherita", "Pomodoro, Mozzarella, Basilico", "~/img/PizzaMargherita.jpg", 5.5f);
-                Pizza italiana = new Pizza("Italiana", "Rucola, Scaglie di parmiggiano, pomodorini e crudo", "~/img/PizzaRucola.jpg", 7.5f);
-                Pizza croccopizza = new Pizza("Croccopizza", "Crocche e mozzarella, cotto e panna", "~/img/PizzaCroccoPizza.jpg", 8f);
-                Pizza salsiccia = new Pizza("Salsiccia e Patatine", "Salsiccia, patatine fritte, mozzarella", "~/img/PizzaSalsiccia.jpg", 8.5f);
-                Pizza friarelli = new Pizza("Salsiccia e friarielli", "Salsiccia, friarielli, mozzarella", "~/img/PizzaFriarielli.jpg", 7f);
-
-                PizzaManager.InsertPizza(margherita, new());
-                PizzaManager.InsertPizza(italiana, new());
-                PizzaManager.InsertPizza(croccopizza, new());
-                PizzaManager.InsertPizza(salsiccia, new());
-                PizzaManager.InsertPizza(friarelli, new());
-
+                return db.Pizze
+                    .Where(p => p.Nome.ToLower().Contains(name.ToLower()))
+                    .ToList();
             }
-        }*/
+        }
+
+        /* public static void Seed()
+         {
+             if (PizzaManager.CountAllPizzas() == 0)
+             {
+
+                 Pizza margherita = new Pizza("Margherita", "Pomodoro, Mozzarella, Basilico", "~/img/PizzaMargherita.jpg", 5.5f);
+                 Pizza italiana = new Pizza("Italiana", "Rucola, Scaglie di parmiggiano, pomodorini e crudo", "~/img/PizzaRucola.jpg", 7.5f);
+                 Pizza croccopizza = new Pizza("Croccopizza", "Crocche e mozzarella, cotto e panna", "~/img/PizzaCroccoPizza.jpg", 8f);
+                 Pizza salsiccia = new Pizza("Salsiccia e Patatine", "Salsiccia, patatine fritte, mozzarella", "~/img/PizzaSalsiccia.jpg", 8.5f);
+                 Pizza friarelli = new Pizza("Salsiccia e friarielli", "Salsiccia, friarielli, mozzarella", "~/img/PizzaFriarielli.jpg", 7f);
+
+                 PizzaManager.InsertPizza(margherita, new());
+                 PizzaManager.InsertPizza(italiana, new());
+                 PizzaManager.InsertPizza(croccopizza, new());
+                 PizzaManager.InsertPizza(salsiccia, new());
+                 PizzaManager.InsertPizza(friarelli, new());
+
+             }
+         }*/
     }
 }
