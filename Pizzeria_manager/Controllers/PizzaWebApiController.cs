@@ -65,11 +65,15 @@ namespace Pizzeria_manager.Controllers
             pizza.Id = id;
             //PizzaManager.UpdatePizza(pizza.Id, pizza.Nome, pizza.Descrizione, pizza.FotoUrl, pizza.Prezzo, pizza.CategoryId, null);
 
-            PizzaManager.UpdatePizza(pizza.Id, pizza.Nome, pizza.Descrizione, pizza.FotoUrl, pizza.ImageFile, pizza.Prezzo, pizza.CategoryId, null);
+            var selectedIngredienti = pizza.Ingredienti?.Select(i => i.Id.ToString()).ToList();
+
+            PizzaManager.UpdatePizza(pizza.Id, pizza.Nome, pizza.Descrizione, pizza.FotoUrl, pizza.ImageFile, pizza.Prezzo, pizza.CategoryId, selectedIngredienti);
             return Ok();
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
+
         public IActionResult DeletePizza(int id)
         {
             bool found = PizzaManager.DeletePizza(id);
