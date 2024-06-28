@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace Pizzeria_manager.Controllers
 {
@@ -19,12 +21,22 @@ namespace Pizzeria_manager.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AuthController> _logger;
+        private readonly IEmailSender _emailSender;
 
-        public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
+        public AuthController(
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            IConfiguration configuration,
+            ILogger<AuthController> logger,
+            IEmailSender emailSender)
+            
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _logger = logger;
+            _emailSender = emailSender;
         }
 
         [HttpPost]
@@ -37,13 +49,51 @@ namespace Pizzeria_manager.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "USER"); // Aggiungi l'utente al ruolo USER di default
+                                                                     // Generate email confirmation token
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action(
+                        nameof(ConfirmEmail), "Auth",
+                        new { userId = user.Id, code },
+                        protocol: HttpContext.Request.Scheme);
 
-                    return Ok(new { Result = "User registered successfully" });
+                    /*
+                    await _emailSender.SendEmailAsync(model.Email, "Confirm your email",
+                        $"Please confirm your account by clicking <a href='{callbackUrl}'>here</a>.");
+
+
+                    return Ok(new { Result = "User registered successfully. Please check your email for confirmation." });*/
+
+                    return Ok(new { Message = "User registered successfully. Please check your email for confirmation.", ConfirmationLink = callbackUrl });
+
                 }
                 return BadRequest(result.Errors);
             }
             return BadRequest("Invalid model");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return BadRequest("Error confirming email.");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userId}'.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                return Ok("Email confirmed successfully!");
+            }
+
+            return BadRequest("Error confirming email.");
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -62,35 +112,8 @@ namespace Pizzeria_manager.Controllers
             return BadRequest("Invalid model");
         }
 
-        // Metodo per generare il token JWT includendo i ruoli dell'utente
-        /*
-        private async Task<string> GenerateJwtToken(IdentityUser user)
-        {
-            var userRoles = await _userManager.GetRolesAsync(user); // Ottieni i ruoli dell'utente
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            // Aggiungi i ruoli come claims
-            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        } */
-
-        // Metodo per generare il token JWT includendo i ruoli dell'utente
-        // Metodo per generare il token JWT includendo i ruoli dell'utente
+ 
+   
         private async Task<string> GenerateJwtToken(IdentityUser user)
         {
             var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
@@ -104,10 +127,10 @@ namespace Pizzeria_manager.Controllers
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
-    {
-        new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-    };
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
             // Aggiungi i ruoli come claims
             claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));

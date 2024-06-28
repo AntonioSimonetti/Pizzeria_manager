@@ -63,8 +63,7 @@ namespace Pizzeria_manager.Controllers
             if (oldPizza == null)
                 return NotFound();
             pizza.Id = id;
-            //PizzaManager.UpdatePizza(pizza.Id, pizza.Nome, pizza.Descrizione, pizza.FotoUrl, pizza.Prezzo, pizza.CategoryId, null);
-
+           
             var selectedIngredienti = pizza.Ingredienti?.Select(i => i.Id.ToString()).ToList();
 
             PizzaManager.UpdatePizza(pizza.Id, pizza.Nome, pizza.Descrizione, pizza.FotoUrl, pizza.ImageFile, pizza.Prezzo, pizza.CategoryId, selectedIngredienti);
